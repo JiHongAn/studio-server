@@ -1,17 +1,15 @@
-// src/common/decorators/get-user.decorator.ts
-import {
-  createParamDecorator,
-  ExecutionContext,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { createParamDecorator } from '@nestjs/common';
+import { Request } from 'express';
 import { UserDto } from '../dtos/user.dto';
+import { AppException } from '../exceptions/app.exception';
 
-export const GetUser = createParamDecorator(
-  (_: unknown, ctx: ExecutionContext): UserDto => {
-    const request = ctx.switchToHttp().getRequest<{ user?: UserDto }>();
-    const user = request.user;
+export const GetUser = createParamDecorator<void, UserDto>(
+  (_data, ctx): UserDto => {
+    const req = ctx.switchToHttp().getRequest<Request & { user?: UserDto }>();
+    const user = req.user;
+
     if (!user) {
-      throw new UnauthorizedException('User not found');
+      throw new AppException('USER_NOT_FOUND');
     }
     return user;
   },
