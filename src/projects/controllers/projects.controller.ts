@@ -2,8 +2,8 @@ import { Controller, Get, UseGuards } from '@nestjs/common';
 import { ProjectsService } from '../services/projects.service';
 import { JwtAuthGuard } from '../../auth/guards/jwt.guard';
 import { GetUser } from '../../libs/decorators/user.decorator';
-import { UserDto } from '../../libs/dtos/user.dto';
-import { GetProjectDto } from '../dtos/get-project.dto';
+import { UserDto } from '../../libs/dto/user.dto';
+import { GetProjectDto } from '../dto/get-project.dto';
 
 @Controller('api/projects')
 @UseGuards(JwtAuthGuard)

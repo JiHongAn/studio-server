@@ -1,6 +1,6 @@
 import { createParamDecorator } from '@nestjs/common';
 import { Request } from 'express';
-import { UserDto } from '../dtos/user.dto';
+import { UserDto } from '../dto/user.dto';
 import { AppException } from '../exceptions/app.exception';
 
 export const GetUser = createParamDecorator<void, UserDto>(
