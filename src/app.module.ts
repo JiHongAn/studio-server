@@ -9,9 +9,21 @@ import { FriendsModule } from './friends/friends.module';
 import { ChatsModule } from './chats/chats.module';
 import { MatchesModule } from './matches/matches.module';
 import { GamesModule } from './games/games.module';
+import { ScenariosModule } from './scenarios/scenarios.module';
 
 @Module({
-  imports: [PrismaModule, CacheModule, AuthModule, ProjectsModule, UsersModule, FriendsModule, ChatsModule, MatchesModule, GamesModule],
+  imports: [
+    PrismaModule,
+    CacheModule,
+    AuthModule,
+    ProjectsModule,
+    UsersModule,
+    FriendsModule,
+    ChatsModule,
+    MatchesModule,
+    GamesModule,
+    ScenariosModule,
+  ],
   controllers: [AppController],
 })
 export class AppModule {}
