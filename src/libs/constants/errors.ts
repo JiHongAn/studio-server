@@ -36,4 +36,9 @@ export const Errors = {
     code: 'INVALID_REFRESH_TOKEN',
     message: '유효하지 않은 리프레시 토큰입니다.',
   },
+  FORBIDDEN: {
+    status: HttpStatus.FORBIDDEN,
+    code: 'FORBIDDEN',
+    message: '접근할 권한이 없습니다.',
+  },
 } as const;

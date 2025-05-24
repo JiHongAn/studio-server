@@ -5,11 +5,8 @@ import { CacheModule } from './cache/cache.module';
 import { AuthModule } from './auth/auth.module';
 import { ProjectsModule } from './projects/projects.module';
 import { UsersModule } from './users/users.module';
-import { FriendsModule } from './friends/friends.module';
-import { ChatsModule } from './chats/chats.module';
 import { MatchesModule } from './matches/matches.module';
-import { GamesModule } from './games/games.module';
-import { ScenariosModule } from './scenarios/scenarios.module';
+import { ScenesModule } from './scenes/scenes.module';
 
 @Module({
   imports: [
@@ -18,11 +15,8 @@ import { ScenariosModule } from './scenarios/scenarios.module';
     AuthModule,
     ProjectsModule,
     UsersModule,
-    FriendsModule,
-    ChatsModule,
     MatchesModule,
-    GamesModule,
-    ScenariosModule,
+    ScenesModule,
   ],
   controllers: [AppController],
 })

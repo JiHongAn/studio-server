@@ -19,10 +19,30 @@ model users {
 }
 
 model projects {
+  id        String    @id @default(uuid()) @db.VarChar(36)
+  userId    String    @map("user_id") @db.VarChar(36)
+  name      String    @db.VarChar(20)
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  users     users     @relation(fields: [userId], references: [id])
+  matches   matches[]
+}
+
+model matches {
   id        String   @id @default(uuid()) @db.VarChar(36)
-  userId    String   @map("user_id") @db.VarChar(36)
+  projectId String   @map("project_id") @db.VarChar(36)
   name      String   @db.VarChar(20)
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
-  users     users    @relation(fields: [userId], references: [id])
+  projects  projects @relation(fields: [projectId], references: [id])
+  scenes    scenes[]
+}
+
+model scenes {
+  id        String   @id @default(uuid()) @db.VarChar(36)
+  matchId   String   @map("match_id") @db.VarChar(36)
+  name      String   @db.VarChar(20)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  matches   matches  @relation(fields: [matchId], references: [id])
 }
