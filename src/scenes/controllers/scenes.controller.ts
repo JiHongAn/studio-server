@@ -5,8 +5,6 @@ import {
   UseGuards,
   Param,
   Body,
-  Query,
-  ParseIntPipe,
 } from '@nestjs/common';
 import { ScenesService } from '../services/scenes.service';
 import { GetUser } from '../../libs/decorators/user.decorator';

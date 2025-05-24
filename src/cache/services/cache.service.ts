@@ -10,7 +10,7 @@ export class CacheService {
     return this.redis.get(key);
   }
 
-  async set(key: string, value: string, ttl: number): Promise<'OK'> {
+  async set(key: string, value: string | number, ttl: number): Promise<'OK'> {
     return this.redis.set(key, value, 'EX', ttl);
   }
 

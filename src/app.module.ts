@@ -7,6 +7,7 @@ import { ProjectsModule } from './projects/projects.module';
 import { UsersModule } from './users/users.module';
 import { MatchesModule } from './matches/matches.module';
 import { ScenesModule } from './scenes/scenes.module';
+import { ObjectsModule } from './objects/objects.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { ScenesModule } from './scenes/scenes.module';
     UsersModule,
     MatchesModule,
     ScenesModule,
+    ObjectsModule,
   ],
   controllers: [AppController],
 })
