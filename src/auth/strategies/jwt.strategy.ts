@@ -6,12 +6,14 @@ import { UserDto } from '../../libs/dto/user.dto';
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor() {
+    if (!process.env.PUBLIC_JWT_KEY) {
+      throw new Error('PUBLIC_JWT_KEY is not defined');
+    }
+
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
-      secretOrKey: Buffer.from(process.env.PUBLIC_JWT_KEY!, 'base64').toString(
-        'ascii',
-      ),
+      secretOrKey: Buffer.from(process.env.PUBLIC_JWT_KEY, 'base64').toString('ascii'),
       algorithms: ['RS256'],
     });
   }

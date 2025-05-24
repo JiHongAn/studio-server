@@ -4,11 +4,14 @@ import {
   ArgumentsHost,
   HttpException,
   HttpStatus,
+  Logger,
 } from '@nestjs/common';
 import { Response } from 'express';
 
 @Catch()
 export class HttpExceptionsFilter implements ExceptionFilter {
+  private readonly logger = new Logger();
+
   catch(exception: unknown, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
@@ -23,6 +26,9 @@ export class HttpExceptionsFilter implements ExceptionFilter {
         ? exception.getResponse()
         : { code: 'INTERNAL_ERROR', message: '서버 내부 오류' };
 
+    if (!(exception instanceof HttpException)) {
+      this.logger.error('Unknown error:', exception);
+    }
     response.status(status).json(errorResp);
   }
 }
