@@ -1,6 +1,5 @@
-export class GetProjectResponseDto {
+export class GetMatchResponseDto {
   id: string;
-  userId: string;
   name: string;
   createdAt: Date;
   updatedAt: Date;

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { UserDto } from '../../libs/dto/user.dto';
 import { PrismaService } from '../../prisma/services/prisma.service';
-import { GetProjectDto } from '../dto/get-project.dto';
+import { GetProjectResponseDto } from '../dto/get-project.dto';
 import { CreateProjectDto } from '../dto/create-project.dto';
 import { UpdateProjectDto } from '../dto/update-project.dto';
 import { AppException } from '../../libs/exceptions/app.exception';
@@ -13,7 +13,7 @@ export class ProjectsService {
   /**
    * 프로젝트 목록 조회
    */
-  async getProjects({ id: userId }: UserDto): Promise<GetProjectDto[]> {
+  async getProjects({ id: userId }: UserDto): Promise<GetProjectResponseDto[]> {
     return this.prismaService.projects.findMany({
       where: { userId },
     });
@@ -39,7 +39,7 @@ export class ProjectsService {
   async getProject(
     { id: userId }: UserDto,
     projectId: string,
-  ): Promise<GetProjectDto> {
+  ): Promise<GetProjectResponseDto> {
     const project = await this.prismaService.projects.findUnique({
       where: { id: projectId, userId },
     });
@@ -72,5 +72,19 @@ export class ProjectsService {
       data: { name },
     });
     return true;
+  }
+
+  /* Project 권한 조회 */
+  async validateProjectPermission(
+    userId: string,
+    projectId: string,
+  ): Promise<void> {
+    const project = await this.prismaService.projects.findUnique({
+      where: { id: projectId },
+      select: { userId: true },
+    });
+    if (project?.userId !== userId) {
+      throw new AppException('FORBIDDEN');
+    }
   }
 }

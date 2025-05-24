@@ -11,7 +11,7 @@ import { ProjectsService } from '../services/projects.service';
 import { JwtAuthGuard } from '../../auth/guards/jwt.guard';
 import { GetUser } from '../../libs/decorators/user.decorator';
 import { UserDto } from '../../libs/dto/user.dto';
-import { GetProjectDto } from '../dto/get-project.dto';
+import { GetProjectResponseDto } from '../dto/get-project.dto';
 import { CreateProjectDto } from '../dto/create-project.dto';
 import { UpdateProjectDto } from '../dto/update-project.dto';
 
@@ -21,7 +21,9 @@ export class ProjectsController {
   constructor(private readonly projectsService: ProjectsService) {}
 
   @Get()
-  async getProjects(@GetUser() user: UserDto): Promise<GetProjectDto[]> {
+  async getProjects(
+    @GetUser() user: UserDto,
+  ): Promise<GetProjectResponseDto[]> {
     return this.projectsService.getProjects(user);
   }
 
@@ -37,7 +39,7 @@ export class ProjectsController {
   async getProject(
     @GetUser() user: UserDto,
     @Param('id') projectId: string,
-  ): Promise<GetProjectDto> {
+  ): Promise<GetProjectResponseDto> {
     return this.projectsService.getProject(user, projectId);
   }
 
