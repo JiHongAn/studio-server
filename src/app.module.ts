@@ -6,9 +6,10 @@ import { AuthModule } from './auth/auth.module';
 import { ProjectsModule } from './projects/projects.module';
 import { UsersModule } from './users/users.module';
 import { FriendsModule } from './friends/friends.module';
+import { ChatsModule } from './chats/chats.module';
 
 @Module({
-  imports: [PrismaModule, CacheModule, AuthModule, ProjectsModule, UsersModule, FriendsModule],
+  imports: [PrismaModule, CacheModule, AuthModule, ProjectsModule, UsersModule, FriendsModule, ChatsModule],
   controllers: [AppController],
 })
 export class AppModule {}
