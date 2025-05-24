@@ -1,4 +1,13 @@
-import { Controller, Get, Post, UseGuards, Param, Body } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  UseGuards,
+  Param,
+  Body,
+  Query,
+  ParseIntPipe,
+} from '@nestjs/common';
 import { ScenesService } from '../services/scenes.service';
 import { GetUser } from '../../libs/decorators/user.decorator';
 import { UserDto } from '../../libs/dto/user.dto';
@@ -26,21 +35,5 @@ export class ScenesController {
     @Body() params: CreateSceneDto,
   ): Promise<string> {
     return this.scenesService.createScene(user, matchId, params);
-  }
-
-  @Get(':sceneId/pull')
-  async pullScene(
-    @GetUser() user: UserDto,
-    @Param('sceneId') sceneId: string,
-  ): Promise<void> {
-    return this.scenesService.pullScene(user, sceneId);
-  }
-
-  @Post(':sceneId/push')
-  async pushScene(
-    @GetUser() user: UserDto,
-    @Param('sceneId') sceneId: string,
-  ): Promise<void> {
-    return this.scenesService.pushScene(user, sceneId);
   }
 }

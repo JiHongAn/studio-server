@@ -46,20 +46,6 @@ export class ScenesService {
     return scene.id;
   }
 
-  /**
-   * Pull
-   */
-  async pullScene({ id: userId }: UserDto, sceneId: string): Promise<void> {
-    await this.validateScenePermission(userId, sceneId);
-  }
-
-  /**
-   * Push
-   */
-  async pushScene({ id: userId }: UserDto, sceneId: string): Promise<void> {
-    await this.validateScenePermission(userId, sceneId);
-  }
-
   /* 유저 권한 체크 */
   async validateScenePermission(
     userId: string,
