@@ -10,7 +10,7 @@ import { JwtAuthGuard } from './guards/jwt.guard';
   imports: [
     PassportModule,
     JwtModule.register({
-      privateKey: process.env.PRIVATE_JWT_KEY 
+      privateKey: process.env.PRIVATE_JWT_KEY
         ? Buffer.from(process.env.PRIVATE_JWT_KEY, 'base64').toString('ascii')
         : undefined,
       signOptions: {
