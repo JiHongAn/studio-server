@@ -7,9 +7,10 @@ import { ProjectsModule } from './projects/projects.module';
 import { UsersModule } from './users/users.module';
 import { FriendsModule } from './friends/friends.module';
 import { ChatsModule } from './chats/chats.module';
+import { MatchesModule } from './matches/matches.module';
 
 @Module({
-  imports: [PrismaModule, CacheModule, AuthModule, ProjectsModule, UsersModule, FriendsModule, ChatsModule],
+  imports: [PrismaModule, CacheModule, AuthModule, ProjectsModule, UsersModule, FriendsModule, ChatsModule, MatchesModule],
   controllers: [AppController],
 })
 export class AppModule {}
