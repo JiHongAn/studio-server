@@ -1,11 +1,4 @@
-import {
-  Controller,
-  Get,
-  Post,
-  UseGuards,
-  Param,
-  Body,
-} from '@nestjs/common';
+import { Controller, Get, Post, UseGuards, Param, Body } from '@nestjs/common';
 import { ScenesService } from '../services/scenes.service';
 import { GetUser } from '../../libs/decorators/user.decorator';
 import { UserDto } from '../../libs/dto/user.dto';

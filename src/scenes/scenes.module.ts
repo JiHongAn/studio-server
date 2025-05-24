@@ -7,5 +7,6 @@ import { MatchesModule } from '../matches/matches.module';
   imports: [MatchesModule],
   controllers: [ScenesController],
   providers: [ScenesService],
+  exports: [ScenesService],
 })
 export class ScenesModule {}
