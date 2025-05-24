@@ -49,31 +49,39 @@ export class ScenesService {
   /**
    * Pull
    */
-  async pullScene({ id: userId }: UserDto, matchId: string): Promise<void> {
-    await this.validateScenePermission(userId, matchId);
+  async pullScene({ id: userId }: UserDto, sceneId: string): Promise<void> {
+    await this.validateScenePermission(userId, sceneId);
   }
 
   /**
    * Push
    */
-  async pushScene({ id: userId }: UserDto, matchId: string): Promise<void> {
-    await this.validateScenePermission(userId, matchId);
+  async pushScene({ id: userId }: UserDto, sceneId: string): Promise<void> {
+    await this.validateScenePermission(userId, sceneId);
   }
 
   /* 유저 권한 체크 */
   async validateScenePermission(
     userId: string,
-    matchId: string,
+    sceneId: string,
   ): Promise<void> {
-    const key = `scene:${matchId}`;
+    const key = `scene:${sceneId}`;
 
     const cachedScenarioUserId = await this.cacheService.get(key);
     if (cachedScenarioUserId === userId) {
       return;
     }
 
+    const scene = await this.prismaService.scenes.findUnique({
+      where: { id: sceneId },
+      select: { matchId: true },
+    });
+    if (!scene) {
+      throw new AppException('FORBIDDEN');
+    }
+
     const match = await this.prismaService.matches.findUnique({
-      where: { id: matchId },
+      where: { id: scene.matchId },
       select: { projectId: true },
     });
     if (!match) {

@@ -7,25 +7,25 @@ import { CreateSceneDto } from '../dto/create-scene.dto';
 import { GetSceneResponseDto } from '../dto/get-scene.dto';
 
 @UseGuards(JwtAuthGuard)
-@Controller('api/:matchId/scenes')
+@Controller('api/matches/:matchId/scenes')
 export class ScenesController {
   constructor(private readonly scenesService: ScenesService) {}
 
   @Get()
   async getScenes(
     @GetUser() user: UserDto,
-    @Param('projectId') projectId: string,
+    @Param('matchId') matchId: string,
   ): Promise<GetSceneResponseDto[]> {
-    return this.scenesService.getScenes(user, projectId);
+    return this.scenesService.getScenes(user, matchId);
   }
 
   @Post()
   async createScene(
     @GetUser() user: UserDto,
-    @Param('projectId') projectId: string,
+    @Param('matchId') matchId: string,
     @Body() params: CreateSceneDto,
   ): Promise<string> {
-    return this.scenesService.createScene(user, projectId, params);
+    return this.scenesService.createScene(user, matchId, params);
   }
 
   @Get(':sceneId/pull')
