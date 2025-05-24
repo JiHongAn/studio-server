@@ -3,6 +3,7 @@ import { UserDto } from '../../libs/dto/user.dto';
 import { PrismaService } from '../../prisma/services/prisma.service';
 import { GetProjectDto } from '../dto/get-project.dto';
 import { CreateProjectDto } from '../dto/create-project.dto';
+import { UpdateProjectDto } from '../dto/update-project.dto';
 
 @Injectable()
 export class ProjectsService {
@@ -29,5 +30,46 @@ export class ProjectsService {
       select: { id: true },
     });
     return projectId;
+  }
+
+  /**
+   * 프로젝트 조회
+   */
+  async getProject(
+    { id: userId }: UserDto,
+    projectId: string,
+  ): Promise<GetProjectDto> {
+    const project = await this.prismaService.projects.findUnique({
+      where: { id: projectId, userId },
+    });
+
+    if (!project) {
+      throw new Error('PROJECT_NOT_FOUND');
+    }
+    return project;
+  }
+
+  /**
+   * 프로젝트 업데이트
+   */
+  async updateProject(
+    { id: userId }: UserDto,
+    projectId: string,
+    { name }: UpdateProjectDto,
+  ): Promise<boolean> {
+    const project = await this.prismaService.projects.findUnique({
+      where: { id: projectId },
+      select: { userId: true },
+    });
+
+    if (project?.userId !== userId) {
+      throw new Error('PROJECT_NOT_FOUND');
+    }
+
+    await this.prismaService.projects.updateMany({
+      where: { id: projectId },
+      data: { name },
+    });
+    return true;
   }
 }
