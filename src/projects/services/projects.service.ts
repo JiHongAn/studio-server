@@ -4,6 +4,7 @@ import { PrismaService } from '../../prisma/services/prisma.service';
 import { GetProjectDto } from '../dto/get-project.dto';
 import { CreateProjectDto } from '../dto/create-project.dto';
 import { UpdateProjectDto } from '../dto/update-project.dto';
+import { AppException } from '../../libs/exceptions/app.exception';
 
 @Injectable()
 export class ProjectsService {
@@ -44,7 +45,7 @@ export class ProjectsService {
     });
 
     if (!project) {
-      throw new Error('PROJECT_NOT_FOUND');
+      throw new AppException('PROJECT_NOT_FOUND');
     }
     return project;
   }
@@ -63,7 +64,7 @@ export class ProjectsService {
     });
 
     if (project?.userId !== userId) {
-      throw new Error('PROJECT_NOT_FOUND');
+      throw new AppException('PROJECT_NOT_FOUND');
     }
 
     await this.prismaService.projects.updateMany({
