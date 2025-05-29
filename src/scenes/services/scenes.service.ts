@@ -24,7 +24,7 @@ export class ScenesService {
   ): Promise<GetSceneResponseDto[]> {
     await this.matchesService.validateMatchPermission(userId, matchId);
 
-    return this.prismaService.scenes.findMany({
+    return this.prismaService.reader.scenes.findMany({
       where: { matchId },
     });
   }
@@ -39,7 +39,7 @@ export class ScenesService {
   ): Promise<string> {
     await this.matchesService.validateMatchPermission(userId, matchId);
 
-    const scene = await this.prismaService.scenes.create({
+    const scene = await this.prismaService.writer.scenes.create({
       data: { matchId, name },
       select: { id: true },
     });
@@ -58,7 +58,7 @@ export class ScenesService {
       return;
     }
 
-    const scene = await this.prismaService.scenes.findUnique({
+    const scene = await this.prismaService.reader.scenes.findUnique({
       where: { id: sceneId },
       select: { matchId: true },
     });
@@ -66,7 +66,7 @@ export class ScenesService {
       throw new AppException('FORBIDDEN');
     }
 
-    const match = await this.prismaService.matches.findUnique({
+    const match = await this.prismaService.reader.matches.findUnique({
       where: { id: scene.matchId },
       select: { projectId: true },
     });
@@ -74,7 +74,7 @@ export class ScenesService {
       throw new AppException('FORBIDDEN');
     }
 
-    const project = await this.prismaService.projects.findUnique({
+    const project = await this.prismaService.reader.projects.findUnique({
       where: { id: match.projectId },
       select: { userId: true },
     });

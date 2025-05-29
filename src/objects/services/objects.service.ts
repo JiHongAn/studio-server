@@ -34,7 +34,8 @@ export class ObjectsService {
       }
     }
 
-    return this.prismaService.objects.findMany({
+    // 읽기 작업 - reader 사용
+    return this.prismaService.reader.objects.findMany({
       where: { sceneId },
       orderBy: { sequence: 'desc' },
       skip: sequence ? 1 : 0,
@@ -57,7 +58,8 @@ export class ObjectsService {
 
     const sequence = Date.now();
 
-    await this.prismaService.objects.create({
+    // 쓰기 작업 - writer 사용
+    await this.prismaService.writer.objects.create({
       data: { sceneId, sequence, type },
       select: { sequence: true },
     });

@@ -14,7 +14,7 @@ export class ProjectsService {
    * 프로젝트 목록 조회
    */
   async getProjects({ id: userId }: UserDto): Promise<GetProjectResponseDto[]> {
-    return this.prismaService.projects.findMany({
+    return this.prismaService.reader.projects.findMany({
       where: { userId },
     });
   }
@@ -26,7 +26,7 @@ export class ProjectsService {
     { id: userId }: UserDto,
     { name }: CreateProjectDto,
   ): Promise<string> {
-    const { id: projectId } = await this.prismaService.projects.create({
+    const { id: projectId } = await this.prismaService.writer.projects.create({
       data: { userId, name },
       select: { id: true },
     });
@@ -40,7 +40,7 @@ export class ProjectsService {
     { id: userId }: UserDto,
     projectId: string,
   ): Promise<GetProjectResponseDto> {
-    const project = await this.prismaService.projects.findUnique({
+    const project = await this.prismaService.reader.projects.findUnique({
       where: { id: projectId, userId },
     });
 
@@ -58,7 +58,7 @@ export class ProjectsService {
     projectId: string,
     { name }: UpdateProjectDto,
   ): Promise<boolean> {
-    const project = await this.prismaService.projects.findUnique({
+    const project = await this.prismaService.reader.projects.findUnique({
       where: { id: projectId },
       select: { userId: true },
     });
@@ -67,7 +67,7 @@ export class ProjectsService {
       throw new AppException('PROJECT_NOT_FOUND');
     }
 
-    await this.prismaService.projects.updateMany({
+    await this.prismaService.writer.projects.updateMany({
       where: { id: projectId },
       data: { name },
     });
@@ -79,7 +79,7 @@ export class ProjectsService {
     userId: string,
     projectId: string,
   ): Promise<void> {
-    const project = await this.prismaService.projects.findUnique({
+    const project = await this.prismaService.reader.projects.findUnique({
       where: { id: projectId },
       select: { userId: true },
     });

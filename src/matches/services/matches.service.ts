@@ -22,7 +22,7 @@ export class MatchesService {
   ): Promise<GetMatchResponseDto[]> {
     await this.projectsService.validateProjectPermission(userId, projectId);
 
-    return this.prismaService.matches.findMany({
+    return this.prismaService.reader.matches.findMany({
       where: { projectId },
     });
   }
@@ -37,7 +37,7 @@ export class MatchesService {
   ): Promise<string> {
     await this.projectsService.validateProjectPermission(userId, projectId);
 
-    const match = await this.prismaService.matches.create({
+    const match = await this.prismaService.writer.matches.create({
       data: { projectId, name },
       select: { id: true },
     });
@@ -49,7 +49,7 @@ export class MatchesService {
     userId: string,
     matchId: string,
   ): Promise<void> {
-    const match = await this.prismaService.matches.findUnique({
+    const match = await this.prismaService.reader.matches.findUnique({
       where: { id: matchId },
       select: { projectId: true },
     });
@@ -57,7 +57,7 @@ export class MatchesService {
       throw new AppException('FORBIDDEN');
     }
 
-    const project = await this.prismaService.projects.findUnique({
+    const project = await this.prismaService.reader.projects.findUnique({
       where: { id: match.projectId },
       select: { userId: true },
     });

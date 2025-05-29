@@ -19,7 +19,7 @@ export class AuthService {
    * 로그인
    */
   async login({ email, password }: LoginDto): Promise<LoginResponseDto> {
-    const user = await this.prismaService.users.findUnique({
+    const user = await this.prismaService.reader.users.findUnique({
       where: { email },
       select: { id: true, password: true },
     });
@@ -44,7 +44,7 @@ export class AuthService {
       expiresIn: '7d',
     });
 
-    await this.prismaService.users.updateMany({
+    await this.prismaService.writer.users.updateMany({
       where: { id: user.id },
       data: { refreshToken },
     });
@@ -55,7 +55,7 @@ export class AuthService {
    * 회원 가입
    */
   async register({ email, password, nickname }: RegisterDto): Promise<boolean> {
-    const existingUser = await this.prismaService.users.findUnique({
+    const existingUser = await this.prismaService.reader.users.findUnique({
       where: { email },
       select: { id: true },
     });
@@ -64,7 +64,7 @@ export class AuthService {
     }
 
     const hash = await bcrypt.hash(password, 10);
-    await this.prismaService.users.createMany({
+    await this.prismaService.writer.users.createMany({
       data: { email, password: hash, nickname },
     });
     return true;
@@ -78,7 +78,7 @@ export class AuthService {
       algorithms: ['RS256'],
     });
 
-    const user = await this.prismaService.users.findUnique({
+    const user = await this.prismaService.reader.users.findUnique({
       where: { id: payload.id },
       select: { id: true, refreshToken: true },
     });
@@ -97,7 +97,7 @@ export class AuthService {
       expiresIn: '7d',
     });
 
-    await this.prismaService.users.updateMany({
+    await this.prismaService.writer.users.updateMany({
       where: { id: user.id },
       data: { refreshToken: newRefreshToken },
     });
@@ -112,7 +112,7 @@ export class AuthService {
    * 로그아웃
    */
   async logout({ id }: UserDto): Promise<boolean> {
-    await this.prismaService.users.updateMany({
+    await this.prismaService.writer.users.updateMany({
       where: { id },
       data: { refreshToken: null },
     });
